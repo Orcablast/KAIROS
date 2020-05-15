@@ -47,6 +47,7 @@ prefix="c"%>
 					<p class="lead">이용권 구매를 하셔서 다양한 혜택을 같이 이용 가능합니다</p>
 					<!-- Button -->
 					<button class="btn btn-lg btn-success purchase">구매 하기</button>
+					<a class="btn btn-lg btn-success" href="/player">플래이어</a>
 				</div>
 			  
 			</div>
