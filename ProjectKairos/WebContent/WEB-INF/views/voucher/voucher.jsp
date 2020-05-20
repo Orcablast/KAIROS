@@ -14,7 +14,7 @@ prefix="c"%>
   <script>
 	  $(function(){
 		  $(".purchase").click(function(){
-				if(${not empty sessionScope.user}){
+			  if(${not empty sessionScope.user}){
 					if(confirm("구매 하시겠습니까?")){
 						if(${sessionScope.user.expiredDate eq null}){
 							location.href= "/buyVoucherFrm";
@@ -26,6 +26,11 @@ prefix="c"%>
 					location.href= "/loginFrm";
 				}
 			});
+	  });
+	  $(function(){
+		$(".player").click(function(){
+			window.open("/player","","width=366px , height=650px , resizable=false");
+		});
 	  });
   </script>
   <body>

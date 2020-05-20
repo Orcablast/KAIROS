@@ -105,7 +105,7 @@ public class UserDao {
 	public int insertUser(Connection conn, User u) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into web_user values (?,?,?,?,?,?,?,sysdate,'1')";
+		String query = "insert into web_user values (?,?,?,?,?,?,?,null,'0')";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, u.getUserId());
@@ -115,6 +115,114 @@ public class UserDao {
 			pstmt.setString(5, u.getPhone());
 			pstmt.setString(6, u.getEmail());
 			pstmt.setString(7, u.getAddr());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public User idSearch(String name, String mail, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		User user = null;
+		String query = "select * from web_user where user_name=? and email=?";
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, name);
+			pstmt.setString(2, mail);
+			rset= pstmt.executeQuery();
+			if(rset.next()){
+				user = new User();
+				user.setUserId(rset.getString("user_id"));
+				user.setUserPw(rset.getString("user_pw"));
+				user.setUserName(rset.getString("user_name"));
+				user.setUserNick(rset.getString("user_nickname"));
+				user.setPhone(rset.getString("phone"));
+				user.setEmail(rset.getString("email"));
+				user.setAddr(rset.getString("address"));
+				user.setExpiredDate(rset.getDate("expired_date"));
+				user.setConAgree(rset.getInt("con_agree"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return user;
+	}
+
+	public User pwSearch(String id, String name, String phone, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		User user = null;
+		String query = "select * from web_user where user_id=? and user_name=? and phone=?";
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.setString(2, name);
+			pstmt.setString(3, phone);
+			rset= pstmt.executeQuery();
+			if(rset.next()){
+				user = new User();
+				user.setUserId(rset.getString("user_id"));
+				user.setUserPw(rset.getString("user_pw"));
+				user.setUserName(rset.getString("user_name"));
+				user.setUserNick(rset.getString("user_nickname"));
+				user.setPhone(rset.getString("phone"));
+				user.setEmail(rset.getString("email"));
+				user.setAddr(rset.getString("address"));
+				user.setExpiredDate(rset.getDate("expired_date"));
+				user.setConAgree(rset.getInt("con_agree"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return user;
+	}
+
+	public int modifyUser(Connection conn, User u) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update web_user set user_pw=?,user_name=?,user_nickname=?,phone=?,email=?,address=? where user_id=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, u.getUserPw());
+			pstmt.setString(2, u.getUserName());
+			pstmt.setString(3, u.getUserNick());
+			pstmt.setString(4, u.getPhone());
+			pstmt.setString(5, u.getEmail());
+			pstmt.setString(6, u.getAddr());
+			pstmt.setString(7, u.getUserId());
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteUser(Connection conn, User u) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from web_user where user_id=?";
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, u.getUserId());
+			System.out.println(u.getUserId());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

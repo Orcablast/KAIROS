@@ -10,6 +10,8 @@
 <link rel="stylesheet" type="text/css"
 	href="/src/css/voucher/voucher.css">
 <script src="/src/js/jquery-3.3.1.js"></script>
+<script src="https://kit.fontawesome.com/8bd2671777.js"
+	crossorigin="anonymous"></script>
 <title>Top Chart</title>
 </head>
 <style>
@@ -22,15 +24,6 @@
 	margin: 10px;
 }
 </style>
-<script>
-	$('#all').change(function(e) {
-		if (e.currentTarget.checked) {
-			$('.rows').find('input[type="checkbox"]').prop('checked', true);
-		} else {
-			$('.rows').find('input[type="checkbox"]').prop('checked', false);
-		}
-	});
-</script>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<section class="container text-center">
@@ -38,11 +31,14 @@
 		<div class="row m-4">
 			<div
 				class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-				<h1 class="h2"><img src="/src/imgs/logo/main_logo(no).png" width="250px"> 순위차트</h1>
+				<h1 class="h2">
+					<img src="/src/imgs/logo/main_logo(no).png" width="250px">
+					순위차트
+				</h1>
 			</div>
 		</div>
 		<hr>
-		<div class="row">
+		<div class="row m-2">
 			<ul class="nav">
 				<li class="nav-item"><a class="nav-link"
 					href="/rankingFrm?reqPage=1&reqType=song" id="song">음악 차트</a></li>
@@ -59,8 +55,17 @@
 				<c:if test="${reqType == 'song' or reqType == 'play'}">
 					<thead>
 						<tr>
-							<th width="10%"><input type="checkbox" id="checkAll"><small>전체선택</small>
-							</th>
+							<th width="10%"><input type="checkbox" id="checkAll"><small><label
+									for="checkAll">전체선택</label></small></th>
+							<th width="10%"><a class="btn btn-primary" id="chkPlayNow">선택 듣기</a></th>
+							<th width="30%"></th>
+							<th width="20%"></th>
+							<th width="10%"></th>
+							<th width="10%"></th>
+							<th width="10%"></th>
+						</tr>
+						<tr>
+							<th width="10%"></th>
 							<th width="10%">순위</th>
 							<th width="30%">곡 제목</th>
 							<th width="20%">앨범</th>
@@ -72,13 +77,25 @@
 					<tbody class="rows">
 						<c:forEach items="${list}" var="m">
 							<tr>
-								<td><input type="checkbox" id="select"></td>
+								<td><input type="hidden" value=${m.songNo } id="songNo"
+									name="songNo"> <input type="checkbox" id="select" value="${m.songNo}"
+									class="check chkBox">
+								</td>
 								<td>${m.rankNo }</td>
 								<td>${m.songTitle }<br>${m.songArtist }</td>
 								<td>${m.albumName }</td>
-								<td>${m.likeCount }</td>
+
+								<c:if test="${m.liked==0 }">
+									<th width="10%" class="heartimg"><i style="color: black;"
+										class="iconheart far fa-heart likeBtn" songNo="${m.songNo}"></i>${m.likeCount }</th>
+								</c:if>
+								<c:if test="${m.liked>0 }">
+									<th width="10%" class="heartimg"><i style="color: red;"
+										class="iconheart fas fa-heart likeBtn" songNo="${m.songNo}"></i>${m.likeCount}</th>
+								</c:if>
+
 								<td>${m.playCount }</td>
-								<td><button class="btn btn-primary btn-sm">듣기</button></td>
+								<td><button class="btn btn-primary btn-sm playBtn" songNo="${m.songNo}">듣기</button></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -134,5 +151,115 @@
 			</nav>
 		</div>
 	</section>
+	<!-- 버튼 기능 -->
+	<script>
+		
+		$(".play").click(function() {
+			console.log($(this).parent().parent().find('#songNo').val());
+		})
+		$('#checkAll').click(function() {
+			if ($('#checkAll').prop('checked')) {
+				$('.check').each(function() {
+					$(this).attr('checked', true);
+				});
+			} else {
+				$('.check').each(function() {
+					$(this).attr('checked', false);
+				});
+			}
+		});
+	</script>
+	<script>
+		
+        // 플레이 나우
+        $("#chkPlayNow").click(function () {
+          let songNo = "";
+          const chks = $(".chkBox:checked");
+
+          for (let i = 0; i < chks.length; i++) {
+            songNo += chks[i].value;
+            if (i != chks.length - 1) {
+              songNo += ",";
+            }
+          }
+
+          $.ajax({
+            url: "/asyncAddPlayList",
+            type: "POST",
+            data: { songNo: songNo },
+            success: function (data) {
+              const result = Number(data);
+              if (result > 0) {
+				window.open("/player","","width=366px , height=650px , resizable=false");
+              } else {
+                alert("추가를 실패하였습니다.");
+              }
+            },
+            error: function () {
+              alert("서버 연결에 실패하엿습니다.");
+            },
+          });
+        });
+
+
+        // 한곡 플레이
+        $(".playBtn").click(function () {
+          const songNo = $(this).attr("songNo");
+
+          $.ajax({
+            url: "/asyncAddPlayFirst",
+            type: "POST",
+            data: { songNo: songNo },
+            success: function (data) {
+              const result = Number(data);
+              if (result > 0) {
+                window.open("/player","","width=366px , height=650px , resizable=false");
+              } else {
+                alert("서버 접속에 실패하였습니다.");
+              }
+            },
+            error: function () {
+              alert("서버 접속에 실패하였습니다.");
+            },
+          });
+        });
+
+
+        $(".likeBtn").click(function () {
+          // click된 element가 i 태그가 아니면 수정필요
+          const btn = $(this);
+
+          const songNo = $(this).attr("songNo");
+
+          // countSpan은 좋아요 카운트를 출력해주는 element
+          const countSpan = $(this).next();
+          const count = Number(countSpan.html());
+
+          $.ajax({
+            url: "/asyncSearchLike",
+            type: "POST",
+            data: { songNo: songNo },
+            success: function (data) {
+              const result = Number(data);
+              if (result == 0) {
+                btn.removeClass();
+                btn.addClass("fas fa-heart likeBtn");
+                btn.css("color", "red");
+                countSpan.html(count + 1);
+              } else if (result == 1) {
+                btn.removeClass();
+                btn.addClass("far fa-heart likeBtn");
+                btn.css("color", "black");
+                countSpan.html(count - 1);
+              } else {
+                alert("서버 접속에 실패하였습니다.");
+              }
+            },
+            error: function () {
+              alert("서버 접속에 실패하였습니다.");
+            },
+          });
+        });
+	</script>
 </body>
 </html>
