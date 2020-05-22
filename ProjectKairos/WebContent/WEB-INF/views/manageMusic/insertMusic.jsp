@@ -69,16 +69,24 @@ prefix="c" %>
           </div>
           <div class="btn_wrapper">
             <button type="submit" class="btn btn-primary">작성 완료</button>
-            <button type="button" class="btn btn-secondary">취소</button>
+            <button type="button" id="cancelBtn" class="btn btn-secondary">
+              취소
+            </button>
           </div>
         </form>
       </div>
     </section>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- 관리자 전용 script -->
     <c:if test="${sessionScope.user.userId == 'admin'}">
       <script src="/src/js/manageMusic/insertMusicByAdmin.js"></script>
     </c:if>
     <!-- ↓↓ JS 파일 추가시 이곳에 ↓↓-->
+    <script>
+      $("#cancelBtn").click(function () {
+        location.href = "/manageMusicFrm";
+      });
+    </script>
     <script src="/src/js/manageMusic/selectAlbum.js"></script>
     <script src="/src/js/manageMusic/insertMusic.js"></script>
     <!-- ↑↑ JS 파일 추가시 이곳에 ↑↑-->

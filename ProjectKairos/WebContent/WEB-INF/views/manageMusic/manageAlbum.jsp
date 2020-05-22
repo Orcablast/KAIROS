@@ -85,10 +85,10 @@ prefix="c" %>
               </div>
             </div>
             <div class="img_container">
-              <img src="/src/imgs/albumImg/아이유-Love poem.jpg" alt="" />
+              <img src="" alt="" />
             </div>
           </div>
-          <div class="btn_wrapper" style="display: none;">
+          <div class="btn_wrapper">
             <button type="submit" class="btn btn-primary">수정 완료</button>
             <button type="button" id="cancelBtn" class="btn btn-secondary">
               취소
@@ -97,8 +97,9 @@ prefix="c" %>
         </form>
       </div>
     </section>
-
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- ↓↓ JS 파일 추가시 이곳에 ↓↓-->
+    <script src="/src/js/manageMusic/deleteSongBtn.js"></script>
     <script src="/src/js/manageMusic/inputArtist.js"></script>
     <script>
       // 취소버튼
@@ -150,32 +151,6 @@ prefix="c" %>
           });
         }
       });
-
-      // 곡 삭제 버튼을 클릭했을때
-      function delSong() {
-        $(".del_song").click(function () {
-          const songDesc = $(this).parent().parent();
-          const songName = $(this).parent().prev().html();
-          const songNo = $(this).val();
-          if (confirm("[" + songName + "] 곡을 정말 삭제하시겠습니까?")) {
-            $.ajax({
-              url: "/asyncDeleteSong",
-              type: "post",
-              data: { songNo: songNo },
-              success: function (data) {
-                if (data > 0) {
-                  songDesc.remove();
-                } else {
-                  alert("음원 삭제에 실패하였습니다.");
-                }
-              },
-              error: function () {
-                alert("음원 삭제에 실패하였습니다.");
-              },
-            });
-          }
-        });
-      }
 
       // 앨범명 수정버튼 클릭시 동작
       $("#mod_album_name").click(function () {
@@ -236,6 +211,7 @@ prefix="c" %>
                   descBtn1.classList.add("btn");
                   descBtn1.classList.add("btn-sm");
                   descBtn1.classList.add("btn-primary");
+                  descBtn1.classList.add("mod_song");
                   descBtn1.innerHTML = "수정";
 
                   let descBtn2 = document.createElement("button");
@@ -257,6 +233,13 @@ prefix="c" %>
                   $("#album_desc").append(desc);
                 }
 
+                $(".mod_song").click(function () {
+                  const songNo = $(this).val();
+                  const songName = $(this).parent().prev().html();
+                  if (confirm("[" + songName + "]곡을 수정하시겠습니까?")) {
+                    location.href = "/modifyMusicFrm?songNo=" + songNo;
+                  }
+                });
                 delSong();
               } else {
                 let desc = document.createElement("div");

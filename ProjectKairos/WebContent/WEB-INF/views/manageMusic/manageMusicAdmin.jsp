@@ -34,12 +34,13 @@ pageEncoding="UTF-8"%>
           음원 등록
         </div>
       </a>
-      <a href="/myMusicListFrm" class="link_container">
+      <a href="/adminMusicListFrm" class="link_container">
         <div>
           전체 음원
         </div>
       </a>
     </section>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- ↓↓ JS 파일 추가시 이곳에 ↓↓-->
     <!-- ↑↑ JS 파일 추가시 이곳에 ↑↑-->
   </body>
