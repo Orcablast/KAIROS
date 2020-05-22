@@ -24,7 +24,7 @@ public class MyInquiryViewServlet extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public MyInquiryViewServlet() {
-        super();mov
+        super();
         // TODO Auto-generated constructor stub
     }
 

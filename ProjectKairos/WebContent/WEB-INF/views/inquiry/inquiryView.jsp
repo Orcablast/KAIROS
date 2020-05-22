@@ -29,7 +29,7 @@ prefix="c"%>
     <section>
       <h2>게시글 상세보기</h2>
       <form action="/modifyInquiryViewFrm" method="post" id="insertFrm">
-        <input type="hidden" name="inqNo" value="${i.inqNo" } />
+        <input type="hidden" name="inqNo" value=${i.inqNo } />
         <table>
           <tr>
             <th style="width: 150px;">제목</th>
@@ -40,8 +40,7 @@ prefix="c"%>
                 class="form-control"
                 name="inqTitle"
                 style="width: 500px;"
-                value="${i.inqTitle"
-                }
+                value= ${i.inqTitle }
               />
             </td>
           </tr>
@@ -49,7 +48,7 @@ prefix="c"%>
             <th>작성자</th>
             <td>
               <span id="span">${i.userId }</span>
-              <input type="hidden" name="inquiryWriter" value="${i.userId" } />
+              <input type="hidden" name="inquiryWriter" value=${i.userId } />
             </td>
           </tr>
 

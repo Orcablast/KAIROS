@@ -84,6 +84,7 @@ prefix="c"%>
         var pwExp = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
         if (!pwExp.test(pw)) {
           $(this).removeClass();
+          
           $(this).addClass("border border-danger");
           $(this).next().next().html("양어 대/소문자 특수문자 8~16자리");
           $(this).next().next().css("color", "red");
