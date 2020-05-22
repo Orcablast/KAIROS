@@ -119,7 +119,7 @@ prefix="c" %>
         if (inputAlbum.length == 0) {
           const input = document.createElement("input");
           input.name = "albumName";
-          input.value = albumName;
+          input.value = document.getElementById(albumNo).innerHTML;
           $("#form-album").append(input);
         }
 
