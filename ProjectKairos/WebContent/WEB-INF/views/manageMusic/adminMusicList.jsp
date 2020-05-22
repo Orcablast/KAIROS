@@ -205,6 +205,7 @@ prefix="c"%>
         <div class="page_nav">${pageNavi}</div>
       </div>
     </section>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <form action="/adminMusicListFrm" method="GET" id="search-form">
       <input type="hidden" name="keyword" id="keyword" value="${req.keyword}" />
       <input type="hidden" name="reqPage" id="reqPage" value="${req.reqPage}" />
@@ -253,6 +254,7 @@ prefix="c"%>
       });
 
       $(".del_song").click(function () {
+        // alert("현재 비활성화된 기능입니다.");
         const songDesc = $(this).parent().parent();
         const songName = $(this).parent().next().html();
         const songNo = $(this).attr("songno");

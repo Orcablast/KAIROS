@@ -2,6 +2,7 @@ DROP TABLE PLAYLIST;
 DROP TABLE LIKELIST;
 DROP TABLE SONG_REPORT;
 DROP TABLE WEB_USER;
+DROP TABLE DEL_WEB_USER;
 DROP TABLE SONG;
 DROP TABLE DELETED_SONG;
 DROP TABLE PURCHASE_LOG;
@@ -28,22 +29,16 @@ CREATE TABLE WEB_USER(
 );
 
 CREATE TABLE DEL_WEB_USER(
-	USER_ID VARCHAR2(20) PRIMARY KEY,
+	USER_ID VARCHAR2(20) NOT NULL,
     USER_PW VARCHAR2(20) NOT NULL,
     USER_NAME VARCHAR2(60) NOT NULL,
     USER_NICKNAME VARCHAR2(100) NOT NULL,
     PHONE VARCHAR2(11) NOT NULL,
     EMAIL VARCHAR2(40) NOT NULL,
     ADDRESS VARCHAR2(300) NOT NULL,
-    EXPIRED_DATE DATE,
+    EXPIRED_DATE DATE ,
     CON_AGREE NUMBER
 );
-insert into web_user values ('pjyub1379','@@pkyu0662','박종엽','엽1','01022222222','pjyub1379@naver.com','렛잇고',sysdate,'1');
-select * from DEL_web_user;
-select * from web_user;
-update web_user set user_id='pjyub1379',user_pw='@@pkyu0662',user_name='박종협' where user_id='pjyub1379';
-select * from web_user where user_name='박종엽' and email='pjyub1379@naver.com';
-delete from web_user where user_id='pjyub1379';
 
 CREATE OR REPLACE TRIGGER USER_DEL_TRG
 AFTER DELETE  -- 트리거 동작 시점(SELECT시점에는 쓸 수 없다.)
@@ -56,7 +51,6 @@ BEGIN
     );
 END;
 /
-commit;
 ----------------------------------------
 -- 앨범 테이블 생성
 ----------------------------------------
@@ -172,13 +166,14 @@ CREATE SEQUENCE SEQ_VOU_NO;
 -- 구매내역 테이블 작성
 ----------------------------------------
 CREATE TABLE PURCHASE_LOG(
-    PURCHASE_NO NUMBER PRIMARY KEY,
+    PURCHASE_NO VARCHAR2(30) PRIMARY KEY,
     VOUCHER_NO NUMBER REFERENCES VOUCHER(VOUCHER_NO),
     USER_ID VARCHAR2(20) NOT NULL,
     PURCHASE_DATE DATE DEFAULT SYSDATE NOT NULL,
     BEGIN_DATE DATE NOT NULL,
     EXPIRED_DATE DATE NOT NULL
 );
+
 
 DROP SEQUENCE SEQ_PUR_NO;
 CREATE SEQUENCE SEQ_PUR_NO;
@@ -196,16 +191,7 @@ CREATE TABLE INQUIRY(
     INQ_FILENAME VARCHAR2(300),
     INQ_FILEPATH VARCHAR2(300)
 );
-select * from inquiry where inq_no=1;
-select*from(select rownum as rnum, n.* from (select*from inquiry where user_id='user01' order by inq_no desc)n)where rnum between 1 and 10;
-select count(*)as cnt from inquiry where user_id='user01';
-ALTER TABLE INQUIRY
-MODIFY INQ_ANS_NO DEFAULT 0;
-select*from inquiry;
-DROP SEQUENCE SEQ_INQ_NO;
-CREATE SEQUENCE SEQ_INQ_NO;
-delete from INQUIRY where user_id='user01';
-COMMIT;
+
 ----------------------------------------
 -- 문의 답변 테이블 작성
 ----------------------------------------

@@ -20,7 +20,7 @@ prefix="c" %>
     <section>
       <div class="insert_wrapper">
         <form
-          action="#"
+          action="/modifyAlbum"
           method="POST"
           enctype="multipart/form-data"
           id="form-album"
@@ -88,7 +88,7 @@ prefix="c" %>
               <img src="" alt="" />
             </div>
           </div>
-          <div class="btn_wrapper" style="display: none;">
+          <div class="btn_wrapper">
             <button type="submit" class="btn btn-primary">수정 완료</button>
             <button type="button" id="cancelBtn" class="btn btn-secondary">
               취소
@@ -97,11 +97,35 @@ prefix="c" %>
         </form>
       </div>
     </section>
-
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- ↓↓ JS 파일 추가시 이곳에 ↓↓-->
     <script src="/src/js/manageMusic/deleteSongBtn.js"></script>
     <script src="/src/js/manageMusic/inputArtist.js"></script>
     <script>
+      $("#form-album").submit(function () {
+        const albumNo = $("#albums").val();
+        const inputAlbum = $(".input_mod_album");
+
+        if ($("#artist").val() == "") {
+          alert("가수명을 선택하세요");
+          return false;
+        }
+
+        if ($("albums").val() == "default") {
+          alert("앨범을 선택하세요");
+          return false;
+        }
+
+        if (inputAlbum.length == 0) {
+          const input = document.createElement("input");
+          input.name = "albumName";
+          input.value = albumName;
+          $("#form-album").append(input);
+        }
+
+        return true;
+      });
+
       // 취소버튼
       $("#cancelBtn").click(function () {
         location.href = "/manageMusicFrm";

@@ -11,7 +11,7 @@ import manageMusic.model.vo.Album;
 import manageMusic.model.vo.AlbumDesc;
 import manageMusic.model.vo.LicensedArtist;
 import oracle.net.aso.a;
-import song.vo.SearchSong;
+import search.model.vo.SearchSong;
 import song.vo.Song;
 
 public class ManageMusicDao {
@@ -527,6 +527,63 @@ public class ManageMusicDao {
 		} finally {
 			JDBCTemplate.close(pst);
 		}		
+		
+		return result;
+	}
+
+	public int readPlayCount(Connection conn, int songNo) {
+		
+		PreparedStatement pst = null;
+		
+		ResultSet rset = null;
+		
+		String query = "select play_count from song where song_no = ?";
+		int result = 0;
+		try {
+			pst = conn.prepareStatement(query);
+			pst.setInt(1, songNo);
+			
+			rset = pst.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("play_count");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pst);
+		}
+		
+		
+		
+		
+		
+		
+		return result;
+	}
+
+	public int addPlayCount(Connection conn, int songNo, int count) {
+
+		PreparedStatement pst = null;
+		
+		int result =0;
+		
+		String query = "update song set play_count =? where song_no = ?";
+		
+		try {
+			pst = conn.prepareStatement(query);
+			pst.setInt(1, count+1);
+			pst.setInt(2, songNo);
+			
+			result = pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pst);
+		}
 		
 		return result;
 	}

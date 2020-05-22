@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
           <input type="hidden" id="update" name="update" value="0" />
           <div class="input_artist cont">
             <span>가수명</span>
-            <input type="text" name="artist" id="artist" readonly />
+            <input type="text" name="artist" id="artist" />
             <button type="button" id="search_artist">검색</button>
           </div>
           <div class="input_company cont">
@@ -40,13 +40,21 @@ pageEncoding="UTF-8"%>
           </div>
           <div class="btn_wrapper">
             <button type="submit" class="btn btn-primary">작성 완료</button>
-            <button type="button" class="btn btn-secondary">취소</button>
+            <button type="button" id="cancelBtn" class="btn btn-secondary">
+              취소
+            </button>
           </div>
         </div>
       </form>
     </section>
-
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
     <!-- ↓↓ JS 파일 추가시 이곳에 ↓↓-->
+
+    <script>
+      $("#cancelBtn").click(function () {
+        location.href = "/manageMusicFrm";
+      });
+    </script>
     <script>
       $("#search_artist").click(function () {
         const url = "/searchArtist";

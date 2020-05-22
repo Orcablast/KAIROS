@@ -95,7 +95,13 @@
 								</c:if>
 
 								<td>${m.playCount }</td>
-								<td><button class="btn btn-primary btn-sm playBtn" songNo="${m.songNo}">듣기</button></td>
+								<c:if test="${empty sessionScope.user }">
+									<td><a href="/loginFrm" class="btn btn-primary btn-sm">듣기</a></td>								
+								</c:if>
+								<c:if test="${not empty sessionScope.user }">
+									<td><button class="btn btn-primary btn-sm playBtn" songNo="${m.songNo}">듣기</button></td>
+								
+								</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -151,6 +157,7 @@
 			</nav>
 		</div>
 	</section>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- 버튼 기능 -->
 	<script>
 		
@@ -184,9 +191,9 @@
           }
 
           $.ajax({
-            url: "/asyncAddPlayList",
+            url: "/asyncAddPlayFirst",
             type: "POST",
-            data: { songNo: songNo },
+            data: { songNo : songNo },
             success: function (data) {
               const result = Number(data);
               if (result > 0) {

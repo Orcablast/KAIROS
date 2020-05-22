@@ -9,7 +9,7 @@ import manageMusic.model.dao.ManageMusicDao;
 import manageMusic.model.vo.Album;
 import manageMusic.model.vo.AlbumDesc;
 import manageMusic.model.vo.LicensedArtist;
-import song.vo.SearchSong;
+import search.model.vo.SearchSong;
 import song.vo.Song;
 
 public class ManageMusicService {
@@ -299,5 +299,24 @@ public class ManageMusicService {
 		JDBCTemplate.close(conn);
 				
 		return result;
+	}
+
+	public int addPlayCount(int songNo) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int count = new ManageMusicDao().readPlayCount(conn, songNo);
+		
+		int result = new ManageMusicDao().addPlayCount(conn, songNo, count);
+		
+		if(result >0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return 0;
 	}
 }
