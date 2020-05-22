@@ -7,7 +7,7 @@ prefix="c" %>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!--↓↓ 스타일 시트를 추가할 시 이곳에 ↓↓-->
     <link rel="stylesheet" href="/src/css/bootstrap.css" />
-    <link rel="stylesheet" href="/src/css/manageMusic/insertMusic.css" />
+    <link rel="stylesheet" href="/src/css/manageMusic/modifyMusic.css" />
     <!--↑↑ 스타일 시트를 추가할 시 이곳에 ↑↑-->
     <title>KAIROS</title>
   </head>
@@ -59,9 +59,10 @@ prefix="c" %>
           <div class="select_album cont">
             <span>앨범명</span>
             <select name="albumNo" id="albums">
-              <option value="default">앨범 선택</option>
+              <option value="${song.songNo}" selected>${song.songTitle}</option>
             </select>
-            <button type="button" id="add_input_album">+</button>
+            <button type="button" id="select_album">변경</button>
+            <button type="button" id="add_input_album">추가</button>
             <div class="insert_album">
               <input type="text" name="albumPath" id="input_album" />
               <button type="button" id="add_album_btn">앨범 추가</button>
@@ -94,7 +95,6 @@ prefix="c" %>
         location.href = "/manageMusicFrm";
       });
     </script>
-    <script src="/src/js/manageMusic/selectAlbum.js"></script>
     <script src="/src/js/manageMusic/modifyMusic.js"></script>
     <!-- ↑↑ JS 파일 추가시 이곳에 ↑↑-->
   </body>

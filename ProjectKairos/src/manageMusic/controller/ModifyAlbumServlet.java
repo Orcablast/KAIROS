@@ -72,8 +72,7 @@ public class ModifyAlbumServlet extends HttpServlet {
 		} else {
 			request.setAttribute("msg", "수정 실패");
 		}
-		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);;
-		
+		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}
 
 	/**

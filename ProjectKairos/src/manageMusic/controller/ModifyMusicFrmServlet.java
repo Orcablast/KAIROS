@@ -39,8 +39,7 @@ public class ModifyMusicFrmServlet extends HttpServlet {
 		
 		
 		if(s != null) {
-			request.setAttribute("song", s);
-			
+			request.setAttribute("song", s);			
 			request.getRequestDispatcher("/WEB-INF/views/manageMusic/modifyMusic.jsp").forward(request, response);;
 			
 		} else {

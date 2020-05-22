@@ -733,7 +733,7 @@ table {
 				class="forward" for="forward"></label></td>
 		</table>
 		<table class="footer">
-			<td><input type="checkbox" id="love" songno="" /><label
+			<td><input type="checkbox" id="love" songNo="" /><label
 				class="love likeBtn" for="love"></label></td>
 			<td><input type="checkbox" id="shuffle" /><label
 				class="fas fa-share-square" for="shuffle"></label></td>
@@ -783,14 +783,20 @@ table {
 	var songNo = 0;
 	var trackLength = $('#trackLength').val();
 	$(function() {
+		chkLike;
+	});
+
+
+	function chkLike(){
+
 		if ($(".song").eq(audioTrack).find('#liked').val() == 0) {
 			$("#love").attr('checked', false);
 		} else {
 			$("#love").attr('checked', true);
 		}
-		$('#love').attr('songNo',
-				$('.song').eq(audioTrack).find('.orderNo').attr('songNo'));
-	});
+		// $('#love').attr('songNo',$('.song').eq(audioTrack).find('.orderNo').attr('songNo'));
+		$('#love').attr('songNo', $('.song').eq(audioTrack).find("#songNo").val());
+	};
 
 	// play 
 	function togglePlayPause() {
@@ -815,7 +821,9 @@ table {
 
 				}	
 
-			});
+			});		
+
+			chkLike();
 
 			} else {
 			$('#play').prop('checked',false);
@@ -857,8 +865,7 @@ table {
 					}
 					$('#love').attr(
 							'songNo',
-							$('.song').eq(audioTrack).find('.orderNo').attr(
-									'songNo'));
+							$('.song').eq(audioTrack).find("#songNo").val());
 					audio.play();
 				});
 	});
@@ -900,7 +907,7 @@ table {
 			console.log('nope');
 		}
 		$('#love').attr('songNo',
-				$('.song').eq(audioTrack).find('.orderNo').attr('songNo'));
+		$('.song').eq(audioTrack).find("#songNo").val());
 
 	}
 	// next music
@@ -935,7 +942,7 @@ table {
 			$("#love").attr('checked', true);
 		}
 		$('#love').attr('songNo',
-				$('.song').eq(audioTrack).find('.orderNo').attr('songNo'));
+		$('.song').eq(audioTrack).find("#songNo").val());
 	}
 	function audioLength() {
 		$('.songLength').each(function() {
@@ -949,8 +956,10 @@ table {
 	$("#love").click(function() {
 		// click된 element가 i 태그가 아니면 수정필요
 		const btn = $(this);
+		const songNo = $(this).attr("songNo");
 
-		const songNo = $(this).attr("songno");
+		console.log(btn);
+		console.log(songNo);
 
 		// countSpan은 좋아요 카운트를 출력해주는 element
 
