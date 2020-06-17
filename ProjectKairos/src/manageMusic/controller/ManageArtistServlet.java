@@ -41,7 +41,7 @@ public class ManageArtistServlet extends HttpServlet {
 		if(result >0) {
 			request.setAttribute("msg", "정보 변경 완료");
 		} else {
-			request.setAttribute("msg", "정보 변경 완료");
+			request.setAttribute("msg", "정보 변경 실패");
 		}
 		request.setAttribute("loc", "/manageArtistFrm");
 		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);

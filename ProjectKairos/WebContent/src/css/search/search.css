@@ -100,3 +100,18 @@ th.album_name {
   display: flex;
   justify-content: center;
 }
+
+#research-form > #ld-search{
+  border: 1px solid #bdbdbd;
+  padding: 3px 7px;
+}
+
+.page_control button{
+  border: 1px solid #bdbdbd;  
+  padding: 3px 7px;
+}
+
+#research-form > #ld-search:hover,
+.page_control button:hover{
+  background-color: #bababa;
+}

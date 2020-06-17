@@ -28,13 +28,13 @@ prefix="c"%>
                 id="re_search"
                 placeholder="결과 내 검색"
               />
-              <button type="submit" id="ld-search">
+              <button type="submit" id="ld-search" class="btn btn-sm">
                 <img src="/src/imgs/icons/search.png" alt="" />
               </button>
             </form>
           </div>
-          <div>
-            <button>선택 삭제</button>
+          <div class="page_control">
+            <button class="btn btn-sm">선택 삭제</button>
             <select name="pageViewNum" id="pageViewNum">
               <option value="25">한 페이지 출력 수</option>
               <option value="25">25</option>
